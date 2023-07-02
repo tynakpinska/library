@@ -15,14 +15,29 @@ body {
 
 form {
   width: 50vw;
+  margin: auto;
   display: flex;
   flex-direction: column;
 }
 
-input, textarea {
+button, input, textarea {
     padding: 5px;
     margin: 5px;
     border: none;
     border-radius: 5px;
+}
 
+button {
+  text-transform: uppercase;
+}
+
+.books-list {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.bookCard {
+  border: 1px solid black;
+  padding: 10px;
 }
