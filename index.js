@@ -1,3 +1,4 @@
+const newBookButton = document.getElementById("new-book-button");
 const form = document.querySelector("form");
 const submitButton = document.getElementById("submit-button");
 const titleInput = document.getElementById("title");
@@ -7,17 +8,7 @@ const yearInput = document.getElementById("year");
 const descriptionInput = document.getElementById("description");
 const booksList = document.querySelector(".books-list");
 
-let myLibrary = [
-  {
-    title: "Sample book",
-    author: "Who knows",
-    pages: 234,
-    year: "1992",
-    description: "Great book",
-  },
-];
-
-generateBooksList();
+let myLibrary = [];
 
 function Book(title, author, pages, year, description, id) {
   this.title = title;
@@ -26,6 +17,10 @@ function Book(title, author, pages, year, description, id) {
   this.year = year;
   this.description = description;
   this.id = id;
+  this.isRead = false;
+  this.setIsRead = () => {
+    this.isRead = !this.isRead;
+  };
 }
 
 function addBookToLibrary() {
@@ -46,13 +41,23 @@ submitButton.addEventListener("click", e => {
   addBookToLibrary();
 });
 
+const removeBook = e => {
+  const foundBook = myLibrary.find(
+    book => `"${book.title}"` === e.target.parentElement.firstChild.innerHTML
+  );
+  myLibrary = myLibrary.filter(book => book !== foundBook);
+  generateBooksList();
+};
+
 function generateBooksList() {
-  myLibrary.forEach(book => {
+  booksList.innerHTML = "";
+  myLibrary.forEach((book, id) => {
     const bookNode = document.createElement("div");
     bookNode.className = "bookCard";
+    bookNode.id = id;
 
     const bookTitle = document.createElement("p");
-    bookTitle.append(book.title);
+    bookTitle.append(`"${book.title}"`);
     bookNode.append(bookTitle);
 
     const bookAuthor = document.createElement("p");
@@ -74,11 +79,16 @@ function generateBooksList() {
     const removeButton = document.createElement("button");
     removeButton.textContent = "Remove";
     bookNode.append(removeButton);
+    removeButton.addEventListener("click", removeBook);
 
     const statusButton = document.createElement("button");
-    statusButton.textContent = "Read";
+    statusButton.textContent = "Unread";
     bookNode.append(statusButton);
 
     booksList.append(bookNode);
   });
 }
+
+newBookButton.addEventListener("click", () =>
+  form.classList.toggle("invisible")
+);
