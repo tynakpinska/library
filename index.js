@@ -17,9 +17,9 @@ function Book(title, author, pages, year, description, id) {
   this.year = year;
   this.description = description;
   this.id = id;
-  this.isRead = false;
-  this.setIsRead = () => {
-    this.isRead = !this.isRead;
+  this.read = false;
+  this.setRead = () => {
+    this.read = !this.read;
   };
 }
 
@@ -54,7 +54,7 @@ const toggleBook = e => {
     .find(
       book => `"${book.title}"` === e.target.parentElement.firstChild.innerHTML
     )
-    .setIsRead();
+    .setRead();
   generateBooksList();
 };
 
@@ -91,7 +91,7 @@ function generateBooksList() {
     removeButton.addEventListener("click", removeBook);
 
     const statusButton = document.createElement("button");
-    statusButton.textContent = book.isRead ? "Read" : "Unread";
+    statusButton.textContent = book.read ? "Read" : "Unread";
     bookNode.append(statusButton);
     statusButton.addEventListener("click", toggleBook);
 
