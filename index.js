@@ -49,6 +49,15 @@ const removeBook = e => {
   generateBooksList();
 };
 
+const toggleBook = e => {
+  myLibrary
+    .find(
+      book => `"${book.title}"` === e.target.parentElement.firstChild.innerHTML
+    )
+    .setIsRead();
+  generateBooksList();
+};
+
 function generateBooksList() {
   booksList.innerHTML = "";
   myLibrary.forEach((book, id) => {
@@ -82,8 +91,9 @@ function generateBooksList() {
     removeButton.addEventListener("click", removeBook);
 
     const statusButton = document.createElement("button");
-    statusButton.textContent = "Unread";
+    statusButton.textContent = book.isRead ? "Read" : "Unread";
     bookNode.append(statusButton);
+    statusButton.addEventListener("click", toggleBook);
 
     booksList.append(bookNode);
   });
